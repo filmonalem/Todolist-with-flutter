@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
         ),
         textTheme: const TextTheme(
           titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          bodyMedium: TextStyle(fontSize: 16, color: Colors.white70),
+          bodyMedium: TextStyle(fontSize: 16, color: Colors.white),
         ),
       ),
 
