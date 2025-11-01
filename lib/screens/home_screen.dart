@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       title: 'To-Do App',
       theme: ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.deepPurple,
+        primaryColor: const Color.fromARGB(255, 203, 192, 223),
         scaffoldBackgroundColor: Colors.grey.shade100,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.transparent,
@@ -44,8 +44,8 @@ class _MyAppState extends State<MyApp> {
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: Colors.deepPurple,
-        scaffoldBackgroundColor: const Color(0xFF1E1E3F),
+        primaryColor: const Color.fromARGB(255, 153, 131, 190),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 36, 36, 70),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
