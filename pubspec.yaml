@@ -12,6 +12,7 @@ dependencies:
 
   hive: ^3.0.0-dev
   hive_flutter: ^2.0.0-dev
+  url_launcher: ^6.1.11
 
 dev_dependencies:
   flutter_test:

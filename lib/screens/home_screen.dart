@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_study/screens/about_screen.dart';
+import 'package:flutter_study/screens/contact_screen.dart';
+import 'package:flutter_study/screens/help_screen.dart';
+import 'package:flutter_study/screens/todo_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'todo_screen.dart';
-import 'about_screen.dart';
-import 'help_screen.dart';
-import 'contact_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,23 +33,44 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'To-Do App',
+      title: 'Loop TodoList',
       theme: ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.deepPurple,
-        scaffoldBackgroundColor: Colors.grey.shade100,
-        appBarTheme: const AppBarTheme(
+        primaryColor: const Color(0xFF6366F1),
+        colorScheme: ColorScheme.light(
+          primary: const Color(0xFF6366F1),
+          secondary: const Color(0xFF10B981),
+          background: Colors.grey.shade50,
+        ),
+        scaffoldBackgroundColor: Colors.grey.shade50,
+        appBarTheme: AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
+          titleTextStyle: TextStyle(
+            color: Colors.grey.shade800,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        primaryColor: Colors.deepPurple,
-        scaffoldBackgroundColor: const Color(0xFF1E1E3F),
+        primaryColor: const Color(0xFF818CF8),
+        colorScheme: const ColorScheme.dark(
+          primary: Color(0xFF818CF8),
+          secondary: Color(0xFF34D399),
+          background: Color(0xFF0F172A),
+          surface: Color(0xFF1E293B),
+        ),
+        scaffoldBackgroundColor: const Color(0xFF0F172A),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
@@ -61,7 +83,11 @@ class HomeScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
   final bool isDarkMode;
 
-  const HomeScreen({super.key, required this.toggleTheme, required this.isDarkMode});
+  const HomeScreen({
+    super.key,
+    required this.toggleTheme,
+    required this.isDarkMode,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -70,17 +96,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = const [
-    TodoScreen(),
-    AboutScreen(),
-    HelpScreen(),
-    ContactScreen(),
+  final List<Widget> _pages = [
+    const TodoScreen(),
+    const AboutScreen(),
+    const HelpScreen(),
+    const ContactScreen(),
   ];
 
   final List<String> _titles = [
-    "To-Do List",
-    "About",
-    "Help",
+    "My Tasks",
+    "About Loop",
+    "Help Guide",
     "Contact Us",
   ];
 
@@ -88,36 +114,56 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedIndex = index;
     });
-    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     final isDark = widget.isDarkMode;
-    final drawerBg = isDark ? const Color(0xFF2C2C54) : Colors.deepPurple.shade50;
+    final drawerBg = isDark ? const Color(0xFF1E293B) : Colors.white;
+    final textColor = isDark ? Colors.white : Colors.grey.shade800;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           _titles[_selectedIndex],
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: textColor,
+            fontWeight: FontWeight.w700,
+            fontSize: 20,
+          ),
         ),
         centerTitle: true,
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF7F00FF), Color(0xFFE100FF)],
+              colors: isDark
+                  ? [const Color(0xFF6366F1), const Color(0xFF10B981)]
+                  : [const Color(0xFF6366F1), const Color(0xFF8B5CF6)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
           ),
         ),
-        elevation: 6,
-        shadowColor: Colors.deepPurple.withOpacity(0.3),
+        elevation: 8,
+        shadowColor: isDark ? Colors.indigo.shade800 : Colors.indigo.shade200,
         actions: [
-          IconButton(
-            icon: Icon(isDark ? Icons.wb_sunny : Icons.nightlight_round),
-            onPressed: widget.toggleTheme,
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.white.withOpacity(0.3),
+                width: 2,
+              ),
+            ),
+            child: IconButton(
+              icon: Icon(
+                isDark ? Icons.wb_sunny_rounded : Icons.nightlight_round_rounded,
+                color: Colors.white,
+                size: 22,
+              ),
+              onPressed: widget.toggleTheme,
+            ),
           ),
         ],
       ),
@@ -126,67 +172,120 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             Container(
-              height: 150,
+              height: 180,
               width: double.infinity,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF7F00FF), Color(0xFFE100FF)],
+                  colors: [Color(0xFF6366F1), Color(0xFF10B981)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
               ),
-              child: const Center(
-                child: Text(
-                  "My To-Do App",
-                  style: TextStyle(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.loop_rounded,
                     color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.2,
+                    size: 40,
                   ),
-                ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    "Loop TodoList",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    "Stay Productive, Stay Organized",
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.9),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 10),
-            _buildDrawerItem(Icons.check_circle_outline, "To-Do List", 0),
-            _buildDrawerItem(Icons.info_outline, "About", 1),
-            _buildDrawerItem(Icons.help_outline, "Help", 2),
-            _buildDrawerItem(Icons.contact_phone_outlined, "Contact Us", 3),
+            const SizedBox(height: 16),
+            _buildDrawerItem(Icons.task_rounded, "My Tasks", 0, isDark),
+            _buildDrawerItem(Icons.info_rounded, "About Loop", 1, isDark),
+            _buildDrawerItem(Icons.help_rounded, "Help Guide", 2, isDark),
+            _buildDrawerItem(Icons.contact_support_rounded, "Contact Us", 3, isDark),
             const Spacer(),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 16),
-              child: Text(
-                "✨ Designed with Flutter",
-                style: TextStyle(color: Colors.grey, fontSize: 12),
+            Container(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Divider(color: Colors.grey.shade600),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.flutter_dash_rounded,
+                        color: isDark ? Colors.blue.shade300 : Colors.blue.shade600,
+                        size: 16,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        "Built with Flutter & ❤️",
+                        style: TextStyle(
+                          color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
         ),
       ),
       body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 400),
+        duration: const Duration(milliseconds: 500),
         child: _pages[_selectedIndex],
       ),
     );
   }
 
-  Widget _buildDrawerItem(IconData icon, String title, int index) {
+  Widget _buildDrawerItem(IconData icon, String title, int index, bool isDark) {
     final bool selected = _selectedIndex == index;
-    final color = selected ? Colors.deepPurple : Colors.grey.shade700;
-    final bg = selected ? Colors.deepPurple.withOpacity(0.1) : null;
+    final color = selected 
+        ? const Color(0xFF6366F1)
+        : (isDark ? Colors.grey.shade300 : Colors.grey.shade700);
+    final bg = selected ? const Color(0xFF6366F1).withOpacity(0.1) : null;
 
-    return ListTile(
-      leading: Icon(icon, color: color),
-      title: Text(
-        title,
-        style: TextStyle(
-          color: color,
-          fontWeight: selected ? FontWeight.bold : FontWeight.normal,
-        ),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(12),
       ),
-      onTap: () => _onItemTapped(index),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      tileColor: bg,
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: color,
+          size: 24,
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            color: color,
+            fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+            fontSize: 15,
+          ),
+        ),
+        onTap: () => _onItemTapped(index),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+      ),
     );
   }
 }
