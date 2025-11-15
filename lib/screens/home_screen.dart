@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_study/screens/about_screen.dart';
-import 'package:flutter_study/screens/contact_screen.dart';
-import 'package:flutter_study/screens/help_screen.dart';
-import 'package:flutter_study/screens/todo_screen.dart';
+import 'about_screen.dart';
+import 'contact_screen.dart';
+import 'help_screen.dart';
+import 'todo_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 
@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.light(
           primary: const Color(0xFF6366F1),
           secondary: const Color(0xFF10B981),
-          background: Colors.grey.shade50,
+          surface: Colors.grey.shade50,
         ),
         scaffoldBackgroundColor: Colors.grey.shade50,
         appBarTheme: AppBarTheme(
@@ -59,7 +59,6 @@ class _MyAppState extends State<MyApp> {
         colorScheme: const ColorScheme.dark(
           primary: Color(0xFF818CF8),
           secondary: Color(0xFF34D399),
-          background: Color(0xFF0F172A),
           surface: Color(0xFF1E293B),
         ),
         scaffoldBackgroundColor: const Color(0xFF0F172A),
@@ -203,6 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     "Stay Productive, Stay Organized",
                     style: TextStyle(
+                      // ignore: deprecated_member_use
                       color: Colors.white.withOpacity(0.9),
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
